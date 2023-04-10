@@ -20,24 +20,20 @@ void setup() {
    Serial.begin(9600);
   espSerial.begin(9600);
   delay(1000);
-  Serial.println(F("DHTxx test!"));
-
+   
   dht.begin();
   lcd.begin(16, 2);
   pinMode(BUTTON_PIN, INPUT_PULLUP);  
-  pinMode(RELAY_PIN, OUTPUT);
-  // Print a message to the LCD.
-}
+
+   }
 
 void loop() {
 
       delay(1250);
-        digitalWrite(RELAY_PIN, HIGH); // turn on the relay
   bool currentState = digitalRead(BUTTON_PIN);
-    static bool previousState = HIGH; // initialize the previous state to HIGH
+    static bool previousState = HIGH; 
   
   if (previousState == HIGH && currentState == LOW) {
-    // swap the temperature scale
     if (tempScale == Celsius) {
       tempScale = Fahrenheit;
     } else {
@@ -50,7 +46,6 @@ void loop() {
   float t = dht.readTemperature();
   float f = dht.readTemperature(true);
 
-  // Check if any reads failed and exit early (to try again).
   if (isnan(h) || isnan(t) || isnan(f)) {
     Serial.println(F("Failed to read from DHT sensor!"));
     return;
