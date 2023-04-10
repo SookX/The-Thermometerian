@@ -1,10 +1,15 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 import hashlib
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+
+secret_key = os.environ.get('SECRET_KEY')
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SECRET_KEY'] = '63103453574bccae5541fa05'
+app.config['SECRET_KEY'] = secret_key
 db = SQLAlchemy(app)
 
 class User(db.Model):
