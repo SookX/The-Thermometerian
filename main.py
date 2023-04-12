@@ -57,10 +57,8 @@ def login():
                 session['remember'] = True
                 session['email'] = email
                 session.permanent = True
-                return redirect(url_for('buttons'))
-        flash('Invalid email or password')
-        
-    return render_template('login.html')
+                return redirect(url_for('buttons'))        
+    return render_template('login.html', erorr = "")
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
