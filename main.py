@@ -57,9 +57,12 @@ def login():
                 session['remember'] = True
                 session['email'] = email
                 session.permanent = True
-                return redirect(url_for('buttons'))        
-    return render_template('login.html', erorr = "")
-
+                return redirect(url_for('buttons'))
+            else:
+                    return render_template("login.html", error = "Invalid Credentials")
+        else:
+            return render_template("login.html", error = "Invalid Credentials")
+    return render_template("login.html")
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if 'remember' in session and session['remember'] == True:
@@ -72,8 +75,7 @@ def register():
         confirm_password = request.form['confirm_password']
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
-            flash('Email address already exists')
-            return redirect(url_for('register'))
+            return render_template('login.html', error = "Email already exists")
         elif password == confirm_password:
             hash_object = hashlib.sha256(password.encode('utf-8'))
             hex_dig = hash_object.hexdigest()
@@ -85,8 +87,7 @@ def register():
             session.permanent = True
             return redirect(url_for('buttons'))
         else:
-            flash('Passwords do not match')
-            return redirect(url_for('register'))
+            return render_template('login.html', error = "Password doesnt match")
     else:
         return render_template('login.html')
 
